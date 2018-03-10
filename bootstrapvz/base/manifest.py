@@ -5,6 +5,7 @@ invocations should have etc..
 from bootstrapvz.common.exceptions import ManifestError
 from bootstrapvz.common.tools import load_data, rel_path
 import logging
+import os.path
 log = logging.getLogger(__name__)
 
 
@@ -113,6 +114,8 @@ class Manifest(object):
         # The packages and plugins sections are not required
         self.packages     = self.data['packages'] if 'packages' in self.data else {}
         self.plugins      = self.data['plugins'] if 'plugins' in self.data else {}
+
+        self.bootstrapper['workspace'] = os.path.abspath(rel_path(self.path, self.bootstrapper['workspace']))
 
     def schema_validator(self, data, schema_path):
         """This convenience function is passed around to all the validation functions
